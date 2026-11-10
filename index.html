@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peloton Glide — Concept Prototype</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --ink: #111216;
+    --ink-2: #2a2c33;
+    --muted: #6b6f7a;
+    --faint: #a3a7b1;
+    --line: #e4e6ea;
+    --bg: #ffffff;
+    --bg-2: #f5f6f8;
+    --accent: #3b5bfd;
+    --accent-ink: #ffffff;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  button { font: inherit; cursor: pointer; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+  /* Disclaimer */
+  .disclaimer {
+    background: #fff7d6; color: #5c4a00; font-size: 13px; text-align: center;
+    padding: 8px 16px; border-bottom: 1px solid #f0e3a8;
+  }
+
+  /* Nav */
+  nav.top {
+    position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  nav.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .wordmark { font-weight: 800; letter-spacing: .18em; font-size: 15px; text-decoration: none; }
+  .wordmark span { color: var(--muted); font-weight: 500; letter-spacing: .04em; margin-left: 8px; font-size: 12px; }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-2); }
+  .nav-links a { text-decoration: none; }
+  .cart-btn {
+    background: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px;
+    display: flex; gap: 8px; align-items: center; font-size: 14px;
+  }
+  .cart-count {
+    background: var(--ink); color: #fff; border-radius: 999px; font-size: 11px;
+    min-width: 18px; height: 18px; display: inline-grid; place-items: center; padding: 0 5px;
+  }
+
+  /* Hero */
+  .hero { background: var(--ink); color: #fff; overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding-top: 72px; padding-bottom: 72px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: 12px; color: #9fb0ff; font-weight: 600; }
+  .hero h1 { font-size: 64px; line-height: 1.02; margin: 14px 0 18px; letter-spacing: -.02em; }
+  .hero p.lede { font-size: 19px; color: #c9ccd4; max-width: 30em; margin: 0 0 28px; }
+  .price-hero { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+  .price-hero .monthly { font-size: 40px; font-weight: 700; }
+  .price-hero .monthly small { font-size: 18px; font-weight: 500; color: #c9ccd4; }
+  .price-hero .full { font-size: 13px; color: #7d818c; }
+  .btn {
+    display: inline-block; border: 0; border-radius: 999px; padding: 15px 28px; font-weight: 600;
+    font-size: 15px; text-decoration: none; text-align: center;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-ghost { background: transparent; color: #fff; border: 1px solid #454852; margin-left: 10px; }
+  .hero-art { display: grid; place-items: center; }
+  .hero-art svg { width: 100%; max-width: 480px; height: auto; }
+
+  /* Sections */
+  section { padding: 88px 0; }
+  h2 { font-size: 40px; letter-spacing: -.015em; margin: 0 0 12px; line-height: 1.1; }
+  .sub { color: var(--muted); font-size: 18px; max-width: 40em; margin: 0 0 48px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feature { background: var(--bg-2); border-radius: var(--radius); padding: 28px; }
+  .feature .icon { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 18px; font-size: 20px; }
+  .feature h3 { margin: 0 0 8px; font-size: 19px; }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .stat { border-top: 2px solid var(--ink); padding-top: 12px; }
+  .stat b { font-size: 30px; display: block; letter-spacing: -.01em; }
+  .stat span { color: var(--muted); font-size: 14px; }
+  .classes-card {
+    background: linear-gradient(160deg, #1b1d24, #2d3240); color: #fff; border-radius: 20px; padding: 28px; min-height: 320px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .class-item { background: rgba(255,255,255,.07); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+  .class-item .tag { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: #9fb0ff; }
+
+  /* Packages */
+  #shop { background: var(--bg-2); }
+  .packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .pkg {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px;
+    cursor: pointer; transition: border-color .15s;
+  }
+  .pkg.selected { border-color: #c9cfe9; }
+  .pkg h3 { margin: 0 0 4px; font-size: 20px; }
+  .pkg .pkg-price { font-size: 15px; color: var(--muted); }
+  .pkg .pkg-monthly { font-size: 26px; font-weight: 700; margin-top: 10px; }
+  .pkg .pkg-monthly small { font-size: 14px; font-weight: 500; color: var(--muted); }
+  .pkg .details-toggle { background: none; border: 0; padding: 0; margin-top: 16px; color: var(--faint); font-size: 12px; text-decoration: underline; }
+  .pkg ul { margin: 12px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; display: none; }
+  .pkg.open ul { display: block; }
+
+  .addons { margin-top: 36px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 26px; }
+  .addons h4 { margin: 0 0 12px; font-size: 15px; }
+  .addon { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .addon:first-of-type { border-top: 0; }
+  .addon .grow { flex: 1; }
+  .addon .muted { color: var(--muted); font-size: 13px; }
+
+  .shop-cta { display: flex; justify-content: flex-end; align-items: center; gap: 18px; margin-top: 28px; }
+  .shop-cta .summary { color: var(--muted); font-size: 14px; }
+
+  /* Reviews */
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .stars { color: var(--ink); letter-spacing: 2px; font-size: 14px; }
+  .review p { margin: 10px 0 14px; font-size: 15px; }
+  .review .who { color: var(--muted); font-size: 13px; }
+
+  /* Tech info accordion */
+  .tech { border-top: 1px solid var(--line); padding: 28px 0 8px; }
+  .tech summary { cursor: pointer; font-size: 14px; color: var(--muted); list-style: none; }
+  .tech summary::-webkit-details-marker { display: none; }
+  .tech summary::after { content: " +"; }
+  .tech[open] summary::after { content: " –"; }
+  .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; margin-top: 18px; font-size: 14px; }
+  .spec-grid div { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .spec-grid div span:first-child { color: var(--muted); }
+
+  footer { background: var(--ink); color: #9a9ea8; font-size: 13px; padding: 48px 0; }
+  footer .cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  footer h5 { color: #fff; margin: 0 0 10px; font-size: 13px; }
+  footer p { margin: 4px 0; }
+  footer .legal { margin-top: 32px; border-top: 1px solid #2a2c33; padding-top: 20px; }
+
+  /* Cart drawer */
+  .scrim { position: fixed; inset: 0; background: rgba(10,10,14,.45); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 40; }
+  .scrim.show { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100%; background: #fff; z-index: 50;
+    transform: translateX(100%); transition: transform .25s ease; display: flex; flex-direction: column;
+  }
+  .drawer.show { transform: translateX(0); }
+  .drawer header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  .drawer header h3 { margin: 0; font-size: 18px; }
+  .close { background: none; border: 0; font-size: 22px; line-height: 1; color: var(--muted); }
+  .drawer .body { flex: 1; overflow: auto; padding: 8px 24px; }
+  .line-item { display: flex; justify-content: space-between; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .line-item .note { color: var(--faint); font-size: 11px; }
+  .line-item .remove { background: none; border: 0; padding: 0; color: var(--muted); font-size: 12px; text-decoration: underline; }
+  .drawer footer.dfoot { background: #fff; color: var(--ink); padding: 20px 24px; border-top: 1px solid var(--line); }
+  .totals div { display: flex; justify-content: space-between; font-size: 14px; padding: 3px 0; color: var(--muted); }
+  .totals div.total { color: var(--ink); font-weight: 700; font-size: 17px; padding-top: 8px; }
+  .proceed { display: block; margin-top: 16px; text-align: right; font-size: 13px; color: var(--faint); background: none; border: 0; width: 100%; padding: 6px 0; }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
+
+  /* Checkout */
+  .view { display: none; }
+  .view.active { display: block; }
+  .checkout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; padding: 56px 0 88px; }
+  .checkout h2 { font-size: 30px; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; font-size: 14px; }
+  .field input, .field select { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .fieldset-title { font-weight: 700; margin: 28px 0 12px; font-size: 16px; }
+  .order-summary { background: var(--bg-2); border-radius: var(--radius); padding: 24px; align-self: start; position: sticky; top: 88px; }
+  .order-summary h3 { margin: 0 0 12px; font-size: 17px; }
+  .radio-card { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+  .radio-card input { margin-top: 3px; }
+  .fake-note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+  .confirm { text-align: center; padding: 120px 0; }
+  .confirm .check { width: 72px; height: 72px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 34px; margin: 0 auto 24px; }
+
+  .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 999px; font-size: 14px; opacity: 0; transition: all .2s; z-index: 60; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .split, .checkout { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 44px; }
+    .features, .packages, .reviews, footer .cols { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .spec-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="disclaimer">
+  Concept prototype for a UX research demo. Not affiliated with, endorsed by, or a product of Peloton Interactive, Inc. Nothing here is for sale.
+</div>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="wordmark" href="#/">PELOTON <span>Concept</span></a>
+    <div class="nav-links">
+      <a href="#features" data-scroll>Features</a>
+      <a href="#classes" data-scroll>Classes</a>
+      <a href="#shop" data-scroll>Shop</a>
+      <a href="#reviews" data-scroll>Reviews</a>
+    </div>
+    <button class="cart-btn" id="openCart" aria-label="Open cart">
+      Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ PRODUCT VIEW ============ -->
+<main id="view-product" class="view active">
+
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Introducing</div>
+        <h1>Peloton Glide</h1>
+        <p class="lede">A low-impact, full-body elliptical with a swivel HD touchscreen and resistance that follows your instructor. Every stride, guided.</p>
+        <div class="price-hero">
+          <div class="monthly">$64<small>/mo</small></div>
+          <div class="full">or $2,495 · 0% APR for 39 mo*</div>
+        </div>
+        <a class="btn btn-primary" href="#shop" data-scroll>Shop Glide</a>
+        <a class="btn btn-ghost" href="#features" data-scroll>Explore</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3a3f4d"/><stop offset="1" stop-color="#1c1f27"/>
+            </linearGradient>
+            <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5a74ff"/><stop offset="1" stop-color="#1f2b7a"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="240" cy="372" rx="200" ry="14" fill="#000" opacity=".35"/>
+          <!-- base -->
+          <rect x="70" y="340" width="340" height="22" rx="11" fill="url(#g1)"/>
+          <!-- flywheel housing -->
+          <path d="M300 250 Q390 250 400 330 L400 345 L290 345 Z" fill="url(#g1)"/>
+          <circle cx="352" cy="305" r="26" fill="#2b2f3a" stroke="#4a5060" stroke-width="3"/>
+          <!-- rails -->
+          <path d="M110 330 L300 300" stroke="#555b6a" stroke-width="10" stroke-linecap="round"/>
+          <!-- pedals -->
+          <rect x="120" y="305" width="80" height="14" rx="7" fill="#9fb0ff" transform="rotate(-9 160 312)"/>
+          <rect x="200" y="290" width="80" height="14" rx="7" fill="#6f84f0" transform="rotate(-9 240 297)"/>
+          <!-- mast -->
+          <path d="M318 255 L292 110" stroke="#3a3f4d" stroke-width="18" stroke-linecap="round"/>
+          <!-- arms -->
+          <path d="M262 290 L240 95" stroke="#666c7c" stroke-width="9" stroke-linecap="round"/>
+          <path d="M282 285 L300 90" stroke="#4d5262" stroke-width="9" stroke-linecap="round"/>
+          <!-- screen -->
+          <rect x="230" y="40" width="150" height="92" rx="10" fill="#0d0f14" stroke="#3a3f4d" stroke-width="4" transform="rotate(-6 305 86)"/>
+          <rect x="240" y="50" width="130" height="72" rx="6" fill="url(#scr)" transform="rotate(-6 305 86)"/>
+          <path d="M262 100 L292 82 L312 92 L348 66" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85" transform="rotate(-6 305 86)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>Built for a smoother workout.</h2>
+      <p class="sub">Glide combines a natural elliptical motion with immersive, instructor-led classes so you get a full-body cardio session that's easy on your joints.</p>
+      <div class="features">
+        <div class="feature">
+          <div class="icon">↻</div>
+          <h3>Auto-Follow resistance</h3>
+          <p>Resistance and incline adjust automatically to match your instructor's cues. Override any time with the dial.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">⇆</div>
+          <h3>Adaptive stride</h3>
+          <p>Stride length adjusts from 18" to 22" so the motion feels natural whatever your height.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">▣</div>
+          <h3>24" swivel HD screen</h3>
+          <p>Rotate the screen 180° to move from cardio to strength, yoga, and stretching on the floor.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">◎</div>
+          <h3>Whisper-quiet drive</h3>
+          <p>Magnetic resistance and a belt drive keep things quiet enough for early mornings and apartments.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">♥</div>
+          <h3>Heart rate zones</h3>
+          <p>Pair any Bluetooth heart rate monitor to train in the right zone, with live on-screen guidance.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">✦</div>
+          <h3>Upper-body arms</h3>
+          <p>Moving handlebars engage arms, shoulders, and back. Switch to the fixed grips for a lower-body focus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="classes" style="padding-top: 0;">
+    <div class="wrap split">
+      <div>
+        <h2>Thousands of classes. One low-impact machine.</h2>
+        <p class="sub" style="margin-bottom: 0;">Live and on-demand Glide classes from 5 to 60 minutes: intervals, endurance, scenic routes, and beginner programs. Off the machine, the screen opens up the full class library.</p>
+        <div class="stat-row">
+          <div class="stat"><b>24</b><span>resistance levels</span></div>
+          <div class="stat"><b>0–15°</b><span>power incline</span></div>
+          <div class="stat"><b>5–60</b><span>minute classes</span></div>
+        </div>
+      </div>
+      <div class="classes-card">
+        <div class="class-item"><div><div class="tag">Live · 6:00 AM</div>30 min Glide Intervals</div><span>→</span></div>
+        <div class="class-item"><div><div class="tag">On demand</div>20 min Low-Impact Climb</div><span>→</span></div>
+        <div class="class-item"><div><div class="tag">Scenic</div>45 min Coastal Route: Big Sur</div><span>→</span></div>
+        <div class="class-item"><div><div class="tag">Program</div>Glide Foundations · Week 1</div><span>→</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="wrap">
+      <h2>Choose your package.</h2>
+      <p class="sub">Every package includes the Peloton Glide and free delivery.</p>
+
+      <div class="packages" id="packages"></div>
+
+      <div class="addons">
+        <h4>Add-ons</h4>
+        <label class="addon">
+          <input type="checkbox" id="addon-protect">
+          <span class="grow">Extended protection plan · 3 years<br><span class="muted">Parts, labor, and accidental damage</span></span>
+          <span>$199</span>
+        </label>
+        <label class="addon">
+          <input type="checkbox" id="addon-assembly">
+          <span class="grow">White-glove setup & haul-away<br><span class="muted">We assemble it and take away the packaging and your old equipment</span></span>
+          <span>$149</span>
+        </label>
+      </div>
+
+      <div class="shop-cta">
+        <span class="summary" id="shopSummary"></span>
+        <button class="btn btn-primary" id="continueBtn">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" style="padding-top: 72px;">
+    <div class="wrap">
+      <h2>Early testers on Glide.</h2>
+      <p class="sub">From our concept preview program.</p>
+      <div class="reviews">
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <p>"My knees can't take running anymore. This gets my heart rate just as high and the auto resistance means I'm not fiddling with knobs."</p>
+          <div class="who">Dana R. · Preview tester</div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★☆</div>
+          <p>"Super quiet. I use it at 5am in a second-floor apartment and no complaints from downstairs."</p>
+          <div class="who">Marcus T. · Preview tester</div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <p>"Swiveling the screen for a quick stretch class after is the feature I didn't know I needed."</p>
+          <div class="who">Priya K. · Preview tester</div>
+        </div>
+      </div>
+
+      <details class="tech">
+        <summary>Technical information</summary>
+        <div class="spec-grid">
+          <div><span>Footprint</span><span>72" L × 30" W × 68" H</span></div>
+          <div><span>Minimum ceiling height</span><span>Your height + 20"</span></div>
+          <div><span>Recommended floor space</span><span>84" × 48"</span></div>
+          <div><span>Step-up height</span><span>14"</span></div>
+          <div><span>Machine weight</span><span>285 lb</span></div>
+          <div><span>Max user weight</span><span>300 lb</span></div>
+          <div><span>User height</span><span>4'11" – 6'7"</span></div>
+          <div><span>Stride length</span><span>18" – 22" adjustable</span></div>
+          <div><span>Resistance</span><span>24 levels, magnetic</span></div>
+          <div><span>Incline</span><span>0–15°, powered</span></div>
+          <div><span>Screen</span><span>23.8" HD touchscreen, 180° swivel</span></div>
+          <div><span>Power</span><span>Standard 120V outlet</span></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="cols">
+        <div><h5>Shop</h5><p>Glide</p><p>Accessories</p><p>Gift cards</p></div>
+        <div><h5>Support</h5><p>Delivery & setup</p><p>Financing</p><p>Warranty</p></div>
+        <div><h5>Our promise</h5><p>30-day home trial. Not for you? We'll pick it up for a full refund.</p></div>
+        <div><h5>Membership</h5><p>All-Access Membership required for classes on Glide.</p></div>
+      </div>
+      <div class="legal">
+        *Financing example shown for illustration only. This is a non-functional concept prototype created for a UX research demonstration. It is not affiliated with or endorsed by Peloton Interactive, Inc. No purchases can be made.
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- ============ CHECKOUT VIEW ============ -->
+<main id="view-checkout" class="view">
+  <div class="wrap checkout">
+    <div>
+      <a href="#/" style="font-size: 14px; color: var(--muted);">← Back to Glide</a>
+      <h2 style="margin-top: 16px;">Checkout</h2>
+
+      <div class="fieldset-title">Contact</div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div>
+
+      <div class="fieldset-title">Delivery address</div>
+      <div class="row2">
+        <div class="field"><label for="fn">First name</label><input id="fn"></div>
+        <div class="field"><label for="ln">Last name</label><input id="ln"></div>
+      </div>
+      <div class="field"><label for="addr">Street address</label><input id="addr"></div>
+      <div class="row2">
+        <div class="field"><label for="city">City</label><input id="city"></div>
+        <div class="field"><label for="zip">ZIP code</label><input id="zip"></div>
+      </div>
+
+      <div class="fieldset-title">Payment</div>
+      <label class="radio-card"><input type="radio" name="pay" value="finance" checked>
+        <span><b>Monthly financing</b><br><span style="color: var(--muted);">0% APR for 39 months, subject to credit approval</span></span></label>
+      <label class="radio-card"><input type="radio" name="pay" value="full">
+        <span><b>Pay in full</b><br><span style="color: var(--muted);">Credit or debit card</span></span></label>
+
+      <button class="btn btn-primary" id="placeOrder" style="margin-top: 20px; width: 100%;">Place order</button>
+      <div class="fake-note">Prototype only. No payment is collected and no order is created.</div>
+    </div>
+    <aside class="order-summary">
+      <h3>Order summary</h3>
+      <div id="checkoutLines"></div>
+      <div class="totals" id="checkoutTotals" style="margin-top: 12px;"></div>
+    </aside>
+  </div>
+</main>
+
+<!-- ============ CONFIRMATION VIEW ============ -->
+<main id="view-confirm" class="view">
+  <div class="wrap confirm">
+    <div class="check">✓</div>
+    <h2>You're all set.</h2>
+    <p class="sub" style="margin: 0 auto 32px;">This is where order confirmation would appear. Thanks for trying the Peloton Glide concept prototype.</p>
+    <a class="btn btn-primary" href="#/" id="startOver">Back to start</a>
+  </div>
+</main>
+
+<!-- Cart drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart">
+  <header><h3>Your cart</h3><button class="close" id="closeCart" aria-label="Close cart">×</button></header>
+  <div class="body" id="cartBody"></div>
+  <footer class="dfoot">
+    <div class="totals" id="cartTotals"></div>
+    <button class="proceed" id="proceedBtn">Proceed</button>
+  </footer>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const PACKAGES = [
+    { id: 'basics',   name: 'Glide Basics',   price: 2495, months: 39,
+      items: ['Peloton Glide elliptical', 'Free delivery'] },
+    { id: 'starter',  name: 'Glide Starter',  price: 2695, months: 39,
+      items: ['Peloton Glide elliptical', 'Equipment mat', 'Heart rate band', 'Water bottle', 'Free delivery'] },
+    { id: 'ultimate', name: 'Glide Ultimate', price: 2995, months: 39,
+      items: ['Peloton Glide elliptical', 'Equipment mat', 'Heart rate band', 'Light dumbbells (2–5 lb)', 'Resistance bands', 'Wireless headphones', 'Water bottle', 'Free delivery'] }
+  ];
+  const ADDONS = {
+    protect:  { name: 'Extended protection plan (3 yr)', price: 199 },
+    assembly: { name: 'White-glove setup & haul-away',   price: 149 }
+  };
+  const MEMBERSHIP = { name: 'All-Access Membership', monthly: 44 };
+  const TAX_RATE = 0.0825;
+
+  const fmt = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const fmt2 = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const monthly = p => Math.ceil(p.price / p.months);
+
+  const state = { selected: 'starter', cart: null };
+
+  // ---- Packages ----
+  const pkgWrap = document.getElementById('packages');
+  function renderPackages() {
+    pkgWrap.innerHTML = PACKAGES.map(p => `
+      <div class="pkg ${state.selected === p.id ? 'selected' : ''}" data-id="${p.id}" role="radio" aria-checked="${state.selected === p.id}" tabindex="0">
+        <h3>${p.name}</h3>
+        <div class="pkg-price">${fmt(p.price)}</div>
+        <div class="pkg-monthly">${fmt(monthly(p))}<small>/mo</small></div>
+        <button class="details-toggle" type="button">What's included</button>
+        <ul>${p.items.map(i => `<li>${i}</li>`).join('')}</ul>
+      </div>`).join('');
+    updateSummary();
+  }
+  pkgWrap.addEventListener('click', e => {
+    const card = e.target.closest('.pkg');
+    if (!card) return;
+    if (e.target.classList.contains('details-toggle')) {
+      card.classList.toggle('open');
+      return;
+    }
+    state.selected = card.dataset.id;
+    const open = [...pkgWrap.querySelectorAll('.pkg.open')].map(c => c.dataset.id);
+    renderPackages();
+    open.forEach(id => pkgWrap.querySelector(`[data-id="${id}"]`).classList.add('open'));
+  });
+  pkgWrap.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pkg')) { e.preventDefault(); e.target.click(); }
+  });
+
+  const addonEls = { protect: document.getElementById('addon-protect'), assembly: document.getElementById('addon-assembly') };
+  Object.values(addonEls).forEach(el => el.addEventListener('change', updateSummary));
+
+  function currentSelection() {
+    const pkg = PACKAGES.find(p => p.id === state.selected);
+    const addons = Object.keys(addonEls).filter(k => addonEls[k].checked);
+    return { pkg, addons };
+  }
+  function updateSummary() {
+    const { pkg } = currentSelection();
+    document.getElementById('shopSummary').textContent = pkg ? `${pkg.name} · ${fmt(monthly(pkg))}/mo` : '';
+  }
+
+  // ---- Cart ----
+  function cartTotals(cart) {
+    const subtotal = cart.pkg.price + cart.addons.reduce((s, k) => s + ADDONS[k].price, 0);
+    const tax = subtotal * TAX_RATE;
+    return { subtotal, tax, total: subtotal + tax };
+  }
+  function lineItemsHTML(cart, removable) {
+    let html = `<div class="line-item"><div><b>${cart.pkg.name}</b></div><div>${fmt(cart.pkg.price)}</div></div>`;
+    cart.addons.forEach(k => {
+      html += `<div class="line-item"><div>${ADDONS[k].name}${removable ? `<br><button class="remove" data-addon="${k}">Remove</button>` : ''}</div><div>${fmt(ADDONS[k].price)}</div></div>`;
+    });
+    html += `<div class="line-item"><div>${MEMBERSHIP.name}<br><span class="note">Required · billed monthly after delivery</span></div><div>${fmt(MEMBERSHIP.monthly)}/mo</div></div>`;
+    return html;
+  }
+  function totalsHTML(cart) {
+    const t = cartTotals(cart);
+    return `
+      <div><span>Subtotal</span><span>${fmt2(t.subtotal)}</span></div>
+      <div><span>Delivery</span><span>Free</span></div>
+      <div><span>Estimated tax</span><span>${fmt2(t.tax)}</span></div>
+      <div class="total"><span>Total due today</span><span>${fmt2(t.total)}</span></div>`;
+  }
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const totals = document.getElementById('cartTotals');
+    const proceed = document.getElementById('proceedBtn');
+    document.getElementById('cartCount').textContent = state.cart ? 1 + state.cart.addons.length : 0;
+    if (!state.cart) {
+      body.innerHTML = '<div class="empty">Your cart is empty.</div>';
+      totals.innerHTML = '';
+      proceed.style.display = 'none';
+      return;
+    }
+    body.innerHTML = lineItemsHTML(state.cart, true) +
+      `<div style="padding-top: 14px;"><button class="remove" id="removePkg">Remove package</button></div>`;
+    totals.innerHTML = totalsHTML(state.cart);
+    proceed.style.display = 'block';
+  }
+  document.getElementById('cartBody').addEventListener('click', e => {
+    if (e.target.dataset.addon) {
+      state.cart.addons = state.cart.addons.filter(k => k !== e.target.dataset.addon);
+      addonEls[e.target.dataset.addon].checked = false;
+      renderCart();
+    } else if (e.target.id === 'removePkg') {
+      state.cart = null;
+      renderCart();
+    }
+  });
+
+  const drawer = document.getElementById('drawer'), scrim = document.getElementById('scrim');
+  const openCart = () => { renderCart(); drawer.classList.add('show'); scrim.classList.add('show'); };
+  const closeCart = () => { drawer.classList.remove('show'); scrim.classList.remove('show'); };
+  document.getElementById('openCart').addEventListener('click', openCart);
+  document.getElementById('closeCart').addEventListener('click', closeCart);
+  scrim.addEventListener('click', closeCart);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+  document.getElementById('continueBtn').addEventListener('click', () => {
+    const { pkg, addons } = currentSelection();
+    state.cart = { pkg, addons };
+    openCart();
+  });
+  document.getElementById('proceedBtn').addEventListener('click', () => {
+    closeCart();
+    location.hash = '#/checkout';
+  });
+
+  // ---- Checkout ----
+  function renderCheckout() {
+    if (!state.cart) { location.hash = '#/'; return; }
+    document.getElementById('checkoutLines').innerHTML = lineItemsHTML(state.cart, false);
+    document.getElementById('checkoutTotals').innerHTML = totalsHTML(state.cart);
+  }
+  document.getElementById('placeOrder').addEventListener('click', () => {
+    location.hash = '#/confirmation';
+  });
+  document.getElementById('startOver').addEventListener('click', () => {
+    state.cart = null; renderCart();
+  });
+
+  // ---- Routing ----
+  function route() {
+    const h = location.hash;
+    const views = { product: 'view-product', checkout: 'view-checkout', confirm: 'view-confirm' };
+    let v = 'product';
+    if (h === '#/checkout') v = 'checkout';
+    else if (h === '#/confirmation') v = 'confirm';
+    Object.entries(views).forEach(([k, id]) => document.getElementById(id).classList.toggle('active', k === v));
+    if (v === 'checkout') renderCheckout();
+    if (v !== 'product' || h === '#/') window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+
+  // In-page anchor links shouldn't break the hash router
+  document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    if (!document.getElementById('view-product').classList.contains('active')) { location.hash = '#/'; }
+    setTimeout(() => document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }), 0);
+  }));
+
+  renderPackages();
+  renderCart();
+  route();
+})();
+</script>
+</body>
+</html>
