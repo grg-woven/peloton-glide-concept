@@ -60,10 +60,17 @@
   .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: 12px; color: var(--accent); font-weight: 600; }
   .hero h1 { font-size: 64px; line-height: 1.02; margin: 14px 0 18px; letter-spacing: -.02em; }
   .hero p.lede { font-size: 19px; color: var(--ink-2); max-width: 30em; margin: 0 0 28px; }
-  .price-hero { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
-  .price-hero .monthly { font-size: 40px; font-weight: 700; }
-  .price-hero .monthly small { font-size: 18px; font-weight: 500; color: var(--muted); }
-  .price-hero .full { font-size: 13px; color: #8a8e98; }
+  .price-hero { margin-bottom: 28px; }
+  .price-hero .full { font-size: 40px; font-weight: 700; letter-spacing: -.01em; }
+  .price-hero .full small { font-size: 16px; font-weight: 500; color: var(--muted); margin-left: 6px; }
+  .price-hero .finance { font-size: 15px; color: var(--ink-2); margin-top: 2px; }
+  .price-hero .member { font-size: 14px; color: var(--ink-2); margin-top: 8px; display: flex; gap: 8px; align-items: center; }
+  .price-hero .member::before { content: "i"; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; font-style: italic; flex: none; }
+  .hero-fit { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; font-size: 14px; color: var(--ink-2); }
+  .hero-fit b { color: var(--ink); }
+  .hero-fit a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .btn.play-btn { display: inline-flex; align-items: center; gap: 8px; }
+  .play-btn::before { content: "▶"; font-size: 11px; }
   .btn {
     display: inline-block; border: 0; border-radius: 999px; padding: 15px 28px; font-weight: 600;
     font-size: 15px; text-decoration: none; text-align: center;
@@ -119,12 +126,16 @@
   }
   .pkg.selected { border-color: #c9cfe9; }
   .pkg h3 { margin: 0 0 4px; font-size: 20px; }
-  .pkg .pkg-price { font-size: 15px; color: var(--muted); }
-  .pkg .pkg-monthly { font-size: 26px; font-weight: 700; margin-top: 10px; }
-  .pkg .pkg-monthly small { font-size: 14px; font-weight: 500; color: var(--muted); }
-  .pkg .details-toggle { background: none; border: 0; padding: 0; margin-top: 16px; color: var(--faint); font-size: 12px; text-decoration: underline; }
-  .pkg ul { margin: 12px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; display: none; }
-  .pkg.open ul { display: block; }
+  .pkg .pkg-price { font-size: 28px; font-weight: 700; margin-top: 8px; letter-spacing: -.01em; }
+  .pkg .pkg-price small { font-size: 13px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .pkg .pkg-monthly { font-size: 14px; color: var(--ink-2); margin-top: 2px; }
+  .pkg .incl-label { margin-top: 18px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+  .pkg ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
+
+  .member-callout { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 20px; background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 18px 22px; font-size: 15px; }
+  .member-callout b { font-size: 16px; }
+  .member-callout .muted { color: var(--muted); font-size: 14px; }
+  .member-callout .amt { font-size: 20px; font-weight: 700; white-space: nowrap; }
 
   .addons { margin-top: 36px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 26px; }
   .addons h4 { margin: 0 0 12px; font-size: 15px; }
@@ -143,12 +154,13 @@
   .review p { margin: 10px 0 14px; font-size: 15px; }
   .review .who { color: var(--muted); font-size: 13px; }
 
-  /* Tech info accordion */
-  .tech { border-top: 1px solid var(--line); padding: 28px 0 8px; }
-  .tech summary { cursor: pointer; font-size: 14px; color: var(--muted); list-style: none; }
-  .tech summary::-webkit-details-marker { display: none; }
-  .tech summary::after { content: " +"; }
-  .tech[open] summary::after { content: " –"; }
+  /* Fit & specs */
+  .fit-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .fit-card { background: var(--bg-2); border-radius: var(--radius); padding: 24px; }
+  .fit-card .label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 600; }
+  .fit-card .val { font-size: 28px; font-weight: 700; margin: 6px 0 4px; letter-spacing: -.01em; }
+  .fit-card p { margin: 0; color: var(--ink-2); font-size: 14px; }
+  .specs-title { font-size: 20px; margin: 48px 0 0; }
   .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; margin-top: 18px; font-size: 14px; }
   .spec-grid div { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0; }
   .spec-grid div span:first-child { color: var(--muted); }
@@ -172,12 +184,26 @@
   .close { background: none; border: 0; font-size: 22px; line-height: 1; color: var(--muted); }
   .drawer .body { flex: 1; overflow: auto; padding: 8px 24px; }
   .line-item { display: flex; justify-content: space-between; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
-  .line-item .note { color: var(--faint); font-size: 11px; }
-  .line-item .remove { background: none; border: 0; padding: 0; color: var(--muted); font-size: 12px; text-decoration: underline; }
+  .line-item .note { color: var(--muted); font-size: 13px; }
+  .line-item.member { background: #f1f4ff; margin: 12px -12px 0; padding: 14px 12px; border-radius: 10px; border-bottom: 0; }
+  .totals .cost-breakdown { display: block; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
+  .cost-breakdown div { color: var(--ink-2); }
+  .remove { background: none; border: 0; padding: 0; color: var(--muted); font-size: 12px; text-decoration: underline; }
   .drawer footer.dfoot { background: #fff; color: var(--ink); padding: 20px 24px; border-top: 1px solid var(--line); }
   .totals div { display: flex; justify-content: space-between; font-size: 14px; padding: 3px 0; color: var(--muted); }
   .totals div.total { color: var(--ink); font-weight: 700; font-size: 17px; padding-top: 8px; }
-  .proceed { display: block; margin-top: 16px; text-align: right; font-size: 13px; color: var(--faint); background: none; border: 0; width: 100%; padding: 6px 0; }
+  .proceed { display: block; margin-top: 16px; width: 100%; }
+
+  /* Video modal */
+  .video-modal { position: fixed; inset: 0; z-index: 70; display: none; place-items: center; background: rgba(10,10,14,.75); padding: 24px; }
+  .video-modal.show { display: grid; }
+  .video-box { position: relative; width: min(960px, 100%); background: #000; border-radius: 16px; overflow: hidden; }
+  .video-box video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .video-box .close { position: absolute; top: 10px; right: 14px; color: #fff; font-size: 28px; z-index: 2; }
+  .video-fallback { display: none; aspect-ratio: 16 / 9; color: #fff; text-align: center; place-items: center; padding: 32px;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url(images/glide-hero.jpg) center / cover; }
+  .video-box.missing video { display: none; }
+  .video-box.missing .video-fallback { display: grid; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
 
   /* Checkout */
@@ -204,7 +230,7 @@
   @media (max-width: 860px) {
     .hero .wrap, .split, .checkout { grid-template-columns: 1fr; }
     .hero h1 { font-size: 44px; }
-    .features, .packages, .reviews, footer .cols { grid-template-columns: 1fr; }
+    .features, .packages, .reviews, .fit-cards, footer .cols { grid-template-columns: 1fr; }
     .nav-links { display: none; }
     .spec-grid { grid-template-columns: 1fr; }
   }
@@ -222,6 +248,7 @@
     <div class="nav-links">
       <a href="#features" data-scroll>Features</a>
       <a href="#classes" data-scroll>Classes</a>
+      <a href="#fit" data-scroll>Dimensions</a>
       <a href="#shop" data-scroll>Shop</a>
       <a href="#reviews" data-scroll>Reviews</a>
     </div>
@@ -241,11 +268,17 @@
         <h1>Peloton Glide</h1>
         <p class="lede">A low-impact, full-body elliptical with a swivel HD touchscreen and resistance that follows your instructor. Every stride, guided.</p>
         <div class="price-hero">
-          <div class="monthly">$64<small>/mo</small></div>
-          <div class="full">or $2,495 · 0% APR for 39 mo*</div>
+          <div class="full">$2,495<small>starting price</small></div>
+          <div class="finance">Or finance from $64/mo at 0% APR for 39 months*</div>
+          <div class="member">Classes need an All-Access Membership: $44/mo, billed separately</div>
         </div>
         <a class="btn btn-primary" href="#shop" data-scroll>Shop Glide</a>
-        <a class="btn btn-ghost" href="#features" data-scroll>Explore</a>
+        <button class="btn btn-ghost play-btn" type="button" id="openVideo">Watch it in action</button>
+        <div class="hero-fit">
+          <span>Footprint <b>72" × 30"</b></span>
+          <span>Ceiling <b>your height + 20"</b></span>
+          <a href="#fit" data-scroll>Will it fit? →</a>
+        </div>
       </div>
       <div class="hero-art">
         <img src="images/glide-hero.jpg" width="1600" height="1195" alt="Peloton Glide elliptical with a swivel HD touchscreen showing an instructor-led class">
@@ -329,12 +362,60 @@
     </div>
   </section>
 
+  <section id="fit">
+    <div class="wrap">
+      <h2>Will it fit?</h2>
+      <p class="sub">Measure your space before you buy. Glide needs room for the machine, a little clearance around it, and headroom above you while you stride.</p>
+      <div class="fit-cards">
+        <div class="fit-card">
+          <div class="label">Footprint</div>
+          <div class="val">72" × 30"</div>
+          <p>Length × width of the machine. 68" tall with the screen upright.</p>
+        </div>
+        <div class="fit-card">
+          <div class="label">Floor space</div>
+          <div class="val">84" × 48"</div>
+          <p>Recommended area, including clearance to step on and off safely.</p>
+        </div>
+        <div class="fit-card">
+          <div class="label">Ceiling height</div>
+          <div class="val">Your height + 20"</div>
+          <p>The pedals lift you 14" off the floor. At 5'10" you'd need a 7'6" ceiling.</p>
+        </div>
+      </div>
+
+      <h3 class="specs-title">Full dimensions &amp; specs</h3>
+      <div class="spec-grid">
+        <div><span>Footprint</span><span>72" L × 30" W × 68" H</span></div>
+        <div><span>Minimum ceiling height</span><span>Your height + 20"</span></div>
+        <div><span>Recommended floor space</span><span>84" × 48"</span></div>
+        <div><span>Step-up height</span><span>14"</span></div>
+        <div><span>Machine weight</span><span>285 lb</span></div>
+        <div><span>Max user weight</span><span>300 lb</span></div>
+        <div><span>User height</span><span>4'11" – 6'7"</span></div>
+        <div><span>Stride length</span><span>18" – 22" adjustable</span></div>
+        <div><span>Resistance</span><span>24 levels, magnetic</span></div>
+        <div><span>Incline</span><span>0–15°, powered</span></div>
+        <div><span>Screen</span><span>23.8" HD touchscreen, 180° swivel</span></div>
+        <div><span>Power</span><span>Standard 120V outlet</span></div>
+      </div>
+    </div>
+  </section>
+
   <section id="shop">
     <div class="wrap">
       <h2>Choose your package.</h2>
-      <p class="sub">Every package includes the Peloton Glide and free delivery.</p>
+      <p class="sub">Every package includes the Peloton Glide and free delivery. Prices shown are the full one-time price, and you can also pay monthly at 0% APR.</p>
 
       <div class="packages" id="packages"></div>
+
+      <div class="member-callout">
+        <div>
+          <b>All-Access Membership required for classes</b><br>
+          <span class="muted">Billed monthly after delivery, separate from the equipment price. Cancel anytime.</span>
+        </div>
+        <div class="amt">$44/mo</div>
+      </div>
 
       <div class="addons">
         <h4>Add-ons</h4>
@@ -352,7 +433,7 @@
 
       <div class="shop-cta">
         <span class="summary" id="shopSummary"></span>
-        <button class="btn btn-primary" id="continueBtn">Continue</button>
+        <button class="btn btn-primary" id="continueBtn">Add to cart</button>
       </div>
     </div>
   </section>
@@ -378,24 +459,6 @@
           <div class="who">Priya K. · Preview tester</div>
         </div>
       </div>
-
-      <details class="tech">
-        <summary>Technical information</summary>
-        <div class="spec-grid">
-          <div><span>Footprint</span><span>72" L × 30" W × 68" H</span></div>
-          <div><span>Minimum ceiling height</span><span>Your height + 20"</span></div>
-          <div><span>Recommended floor space</span><span>84" × 48"</span></div>
-          <div><span>Step-up height</span><span>14"</span></div>
-          <div><span>Machine weight</span><span>285 lb</span></div>
-          <div><span>Max user weight</span><span>300 lb</span></div>
-          <div><span>User height</span><span>4'11" – 6'7"</span></div>
-          <div><span>Stride length</span><span>18" – 22" adjustable</span></div>
-          <div><span>Resistance</span><span>24 levels, magnetic</span></div>
-          <div><span>Incline</span><span>0–15°, powered</span></div>
-          <div><span>Screen</span><span>23.8" HD touchscreen, 180° swivel</span></div>
-          <div><span>Power</span><span>Standard 120V outlet</span></div>
-        </div>
-      </details>
     </div>
   </section>
 
@@ -469,9 +532,21 @@
   <div class="body" id="cartBody"></div>
   <footer class="dfoot">
     <div class="totals" id="cartTotals"></div>
-    <button class="proceed" id="proceedBtn">Proceed</button>
+    <button class="btn btn-primary proceed" id="proceedBtn">Checkout</button>
   </footer>
 </aside>
+
+<!-- Video modal -->
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Peloton Glide in action">
+  <div class="video-box" id="videoBox">
+    <button class="close" id="closeVideo" aria-label="Close video">×</button>
+    <!-- Drop a clip at site/media/glide-in-action.mp4 to enable playback -->
+    <video id="glideVideo" controls playsinline preload="none" poster="images/glide-hero.jpg">
+      <source src="media/glide-in-action.mp4" type="video/mp4">
+    </video>
+    <div class="video-fallback"><div><b style="font-size: 20px;">Product video coming soon</b><br>Concept prototype: the demo clip isn't available yet.</div></div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -504,9 +579,9 @@
     pkgWrap.innerHTML = PACKAGES.map(p => `
       <div class="pkg ${state.selected === p.id ? 'selected' : ''}" data-id="${p.id}" role="radio" aria-checked="${state.selected === p.id}" tabindex="0">
         <h3>${p.name}</h3>
-        <div class="pkg-price">${fmt(p.price)}</div>
-        <div class="pkg-monthly">${fmt(monthly(p))}<small>/mo</small></div>
-        <button class="details-toggle" type="button">What's included</button>
+        <div class="pkg-price">${fmt(p.price)}<small>one-time</small></div>
+        <div class="pkg-monthly">or ${fmt(monthly(p))}/mo financing · 0% APR, ${p.months} mo</div>
+        <div class="incl-label">What's included</div>
         <ul>${p.items.map(i => `<li>${i}</li>`).join('')}</ul>
       </div>`).join('');
     updateSummary();
@@ -514,14 +589,8 @@
   pkgWrap.addEventListener('click', e => {
     const card = e.target.closest('.pkg');
     if (!card) return;
-    if (e.target.classList.contains('details-toggle')) {
-      card.classList.toggle('open');
-      return;
-    }
     state.selected = card.dataset.id;
-    const open = [...pkgWrap.querySelectorAll('.pkg.open')].map(c => c.dataset.id);
     renderPackages();
-    open.forEach(id => pkgWrap.querySelector(`[data-id="${id}"]`).classList.add('open'));
   });
   pkgWrap.addEventListener('keydown', e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pkg')) { e.preventDefault(); e.target.click(); }
@@ -537,7 +606,7 @@
   }
   function updateSummary() {
     const { pkg } = currentSelection();
-    document.getElementById('shopSummary').textContent = pkg ? `${pkg.name} · ${fmt(monthly(pkg))}/mo` : '';
+    document.getElementById('shopSummary').textContent = pkg ? `${pkg.name} · ${fmt(pkg.price)} + ${fmt(MEMBERSHIP.monthly)}/mo membership` : '';
   }
 
   // ---- Cart ----
@@ -551,16 +620,22 @@
     cart.addons.forEach(k => {
       html += `<div class="line-item"><div>${ADDONS[k].name}${removable ? `<br><button class="remove" data-addon="${k}">Remove</button>` : ''}</div><div>${fmt(ADDONS[k].price)}</div></div>`;
     });
-    html += `<div class="line-item"><div>${MEMBERSHIP.name}<br><span class="note">Required · billed monthly after delivery</span></div><div>${fmt(MEMBERSHIP.monthly)}/mo</div></div>`;
+    html += `<div class="line-item member"><div><b>${MEMBERSHIP.name}</b><br><span class="note">Required for classes · billed monthly after delivery</span></div><div><b>${fmt(MEMBERSHIP.monthly)}/mo</b></div></div>`;
     return html;
   }
   function totalsHTML(cart) {
     const t = cartTotals(cart);
+    const financedMonthly = Math.ceil(t.total / cart.pkg.months);
     return `
       <div><span>Subtotal</span><span>${fmt2(t.subtotal)}</span></div>
       <div><span>Delivery</span><span>Free</span></div>
       <div><span>Estimated tax</span><span>${fmt2(t.tax)}</span></div>
-      <div class="total"><span>Total due today</span><span>${fmt2(t.total)}</span></div>`;
+      <div class="total"><span>Equipment total</span><span>${fmt2(t.total)}</span></div>
+      <div class="cost-breakdown">
+        <div><span>Pay in full: one-time</span><span>${fmt2(t.total)}</span></div>
+        <div><span>Or financing: ${cart.pkg.months} months</span><span>~${fmt(financedMonthly)}/mo</span></div>
+        <div><span>Plus membership: ongoing</span><span>${fmt(MEMBERSHIP.monthly)}/mo</span></div>
+      </div>`;
   }
   function renderCart() {
     const body = document.getElementById('cartBody');
@@ -595,7 +670,21 @@
   document.getElementById('openCart').addEventListener('click', openCart);
   document.getElementById('closeCart').addEventListener('click', closeCart);
   scrim.addEventListener('click', closeCart);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCart(); closeVideo(); } });
+
+  // ---- Video ----
+  const videoModal = document.getElementById('videoModal'), videoBox = document.getElementById('videoBox');
+  const video = document.getElementById('glideVideo');
+  video.querySelector('source').addEventListener('error', () => videoBox.classList.add('missing'));
+  function openVideo() {
+    videoModal.classList.add('show');
+    video.load();
+    video.play().catch(() => {});
+  }
+  function closeVideo() { videoModal.classList.remove('show'); video.pause(); }
+  document.getElementById('openVideo').addEventListener('click', openVideo);
+  document.getElementById('closeVideo').addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', e => { if (e.target === videoModal) closeVideo(); });
 
   document.getElementById('continueBtn').addEventListener('click', () => {
     const { pkg, addons } = currentSelection();
